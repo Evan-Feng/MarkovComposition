@@ -1,10 +1,13 @@
+# -*- coding: utf-8 -*-
 from __future__ import print_function
-from music21 import *
+from music21 import note
+from music21 import stream
+from music21 import corpus
 import prettytable
-from collections import defaultdict
 import argparse
-from random import choice
 import json
+from collections import defaultdict
+from random import choice
 from fractions import Fraction
 
 
@@ -215,6 +218,7 @@ def main():
             print(trans_dic)
         generate_markov_matrix(trans_dic)
         new_piece = compose_with_markov_chain(trans_dic, length=args.length)
+
     if args.score or args.play:
         generate_stream(new_piece, play=args.play)
 
