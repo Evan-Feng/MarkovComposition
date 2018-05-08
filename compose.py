@@ -185,7 +185,7 @@ def parse_args():
                         help='increase verbosity level')
 
     group = parser.add_mutually_exclusive_group(required=True)
-    group.add_argument('-j', '--json', help='load form json format')
+    group.add_argument('-j', '--json', help='load form Json format')
     group.add_argument('-m', '--midi', help='load from .midi file')
     group.add_argument('-c', '--corpus', help='load from music21 corpus')
 
