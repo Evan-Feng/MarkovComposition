@@ -4,7 +4,7 @@ A python program that generates music by Markov Chain.
 ### Requirements
 
 ```
-Python 3.6
+python 3.6
 music21 5.1.0
 prettytable 0.7.2
 ```
@@ -13,9 +13,7 @@ prettytable 0.7.2
 
 ```bash
 >>> python compose.py --help
-```
 
-```bash
 usage: compose.py [-h] [-l LENGTH] [--play] [--score] [-o ORDER] [--original]
                   [-d] [-v] (-j JSON | -m MIDI | -c CORPUS)
 
@@ -37,13 +35,11 @@ optional arguments:
                         load from music21 corpus
 ```
 
-Parse existing music from a Json file and generate a new piece of music consisting 200 notes(and rests), prints the Markov matrix and display score in a MusicXML reader (such as MuseScore):
+Parse existing music from a Json file and generate a new piece of music consisting 200 notes(and rests), prints the Markov transition matrix and display score in a MusicXML reader (such as MuseScore):
 
 ```bash
 >>> python compose.py -j example.txt -l 200 --score
-```
 
-```bash
 +------+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+
 |      |  A4 |  A5 |  B5 | F#5 |  G5 |  E5 |  D5 |  D6 |  B4 | G#4 |
 +------+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+
@@ -60,7 +56,27 @@ Parse existing music from a Json file and generate a new piece of music consisti
 +------+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+
 ```
 
-Generate music from a Joplin piano piece, stores the Markov matrix to a local file, and play the sound track of the new piece:
+I simply want to view the score of a famous work, say Scott Joplin's *Maple Leaf Rag* , and analyze its second-order Markov transition matrix:
+
+```bash
+>>> python compose.py -c joplin/maple_leaf_rag --score -o 2
+
++---------+------+------+-----+-----+----+------+-----+------+------+  ...
+|         | C-5  |  G5  | D-6 | E-4 | F6 | A-5  | F-5 |  G4  | D-5  |
++---------+------+------+-----+-----+----+------+-----+------+------+
+|  A-5,R  |  0   |  0   |  0  |  0  | 0  | 2/3  |  0  |  0   |  0   |
+|   R,R   |  0   | 1/8  |  0  |  0  | 0  |  0   |  0  |  0   |  0   |
+|  R,A-4  | 6/11 |  0   |  0  |  0  | 0  |  0   |  0  |  0   |  0   |
+| A-4,E-5 |  0   |  0   |  0  |  0  | 0  | 1/7  |  0  |  0   |  0   |
+| E-5,A-4 |  0   |  0   |  0  |  0  | 0  |  0   |  0  |  0   | 2/7  |
+|  A-4,C5 |  0   |  0   |  0  |  0  | 0  |  0   |  0  |  0   |  0   |
+|  C5,E-5 |  0   |  0   |  0  |  0  | 0  | 1/21 |  0  | 4/21 | 1/21 |  ...
+
+...                     ...                     ...                    ...
+
+```
+
+Generate music from *Maple Leaf Rag*, stores the Markov transition matrix to a local file, and play the sound track of the new piece:
 
 ```bash
 >>> python compose.py -c joplin/maple_leaf_rag --play > output.txt
@@ -70,9 +86,7 @@ Generate music from a Joplin piano piece and take the note duration into conside
 
 ```bash
 >>> python compose.py -c joplin/maple_leaf_rag -d --score
-```
 
-```bash
 +-------------+---------+----------+------------+------------+-----------+  ...
 |             | (R,0.5) | (R,0.25) | (A-4,0.25) | (E-5,0.25) | (C5,0.25) |
 +-------------+---------+----------+------------+------------+-----------+
@@ -83,8 +97,13 @@ Generate music from a Joplin piano piece and take the note duration into conside
 |  (C5,0.25), |    0    |   1/42   |    5/42    |    8/21    |    1/14   |
 |  (E-5,0.5), |    0    |   3/14   |     0      |     0      |     0     |  ...
 
-...                     ...                     ... 
+...                     ...                     ...                         ...
 ```
+
+### Todo
+
+1.  Support for .midi files
+2.  Support for LaTeX-style output
 
 
 
